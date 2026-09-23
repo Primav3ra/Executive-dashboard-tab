@@ -421,5 +421,17 @@ export const SOURCES: SourceDomain[] = [
   { domain: 'bospar.com', citations: 8 },
 ]
 
+/** Weekly sessions referred by AI assistants (illustrative, as if GA4 were connected). */
+export const AI_TRAFFIC = {
+  weekly: series([118, 126, 131, 149, 142, 168, 181, 176, 204, 219, 231, 248, 262, 287]),
+  byPlatform: [
+    { id: 'chatgpt' as PlatformId, sessions: 612 },
+    { id: 'aio' as PlatformId, sessions: 298 },
+    { id: 'gemini' as PlatformId, sessions: 211 },
+    { id: 'claude' as PlatformId, sessions: 107 },
+  ],
+  conversions: 23,
+}
+
 export const CITATION_WEEK = [22, 31, 38, 34, 29, 27, 31]
 export const EXPERT_KPIS = { mentions: 29, citations: 212, sourceDomains: 86, brandsTracked: 48 }

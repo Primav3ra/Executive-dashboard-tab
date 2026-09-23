@@ -42,10 +42,11 @@
   --color-blue-50: #eff6ff;
   --color-blue-500: #3b82f6;
 
-  /* semantic */
-  --color-accent: var(--color-green-500);
-  --color-accent-hover: var(--color-green-600);
-  --color-accent-subtle: var(--color-green-50);
+  /* semantic: dark-blue accent (replaces trakkr's teal) */
+  --color-accent: #1e40af;
+  --color-accent-hover: #1e3a8a;
+  --color-accent-subtle: #eef2fb;
+  --color-accent-muted: #d6e0f5;
   --color-primary: var(--color-gray-900);
   --color-secondary: var(--color-gray-600);
   --color-muted: var(--color-gray-75);
@@ -79,7 +80,7 @@
     border-color: var(--color-default);
   }
   ::selection {
-    background: var(--color-green-100);
+    background: var(--color-accent-muted);
   }
 }
 
@@ -99,7 +100,7 @@
 /* trakkr's ?highlight= deep-link flash */
 @keyframes highlight-flash {
   0% {
-    background-color: var(--color-green-100);
+    background-color: var(--color-accent-muted);
   }
   100% {
     background-color: transparent;

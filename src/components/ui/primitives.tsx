@@ -12,7 +12,7 @@ type Size = 'sm' | 'md' | 'lg'
 const variants: Record<Variant, string> = {
   outline: 'border border-default bg-white text-gray-800 hover:border-hover hover:bg-gray-50 shadow-sm',
   primary: 'bg-accent text-white hover:bg-accent-hover shadow-sm',
-  soft: 'bg-accent-subtle text-accent hover:bg-green-100',
+  soft: 'bg-accent-subtle text-accent hover:bg-accent-muted',
   ghost: 'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
 }
 const sizes: Record<Size, string> = {
@@ -195,7 +195,7 @@ export function Chip({ children, tone = 'neutral' }: { children: ReactNode; tone
     accent: 'bg-accent-subtle text-accent',
     warn: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200',
     error: 'bg-red-50 text-red-600',
-    info: 'bg-blue-50 text-blue-500',
+    info: 'bg-violet-50 text-violet-600',
   }
   return <span className={cx('inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-medium', tones[tone])}>{children}</span>
 }

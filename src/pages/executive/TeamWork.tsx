@@ -30,7 +30,7 @@ export default function TeamWork() {
   const cells: { id: Exclude<Filter, null>; n: number; label: string; color: string }[] = [
     { id: 'active', n: counts.active, label: 'active missions', color: 'text-accent' },
     { id: 'awaiting', n: counts.awaiting, label: 'awaiting approval', color: 'text-red-500' },
-    { id: 'recheck', n: counts.recheck, label: 'outcome pending recheck', color: 'text-blue-500' },
+    { id: 'recheck', n: counts.recheck, label: 'outcome pending recheck', color: 'text-violet-600' },
   ]
 
   const nextActionFor = (m: Mission) => {

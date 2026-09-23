@@ -221,7 +221,7 @@ export default function Evidence() {
       <div className="mt-5 flex items-center justify-between">
         <div className="flex items-center gap-6 text-[13px] text-gray-500">
           <span className="flex items-center gap-2">
-            <span className="size-3 rounded-full bg-accent-subtle ring-1 ring-green-100" /> Observed answer
+            <span className="size-3 rounded-full bg-accent-subtle ring-1 ring-accent-muted" /> Observed answer
           </span>
           <span className="flex items-center gap-2">
             <span className="size-3 rounded-full bg-amber-50 ring-1 ring-amber-200" /> Recommended action

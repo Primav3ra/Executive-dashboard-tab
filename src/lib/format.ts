@@ -60,7 +60,7 @@ export function statusMeta(m: Mission, ctx: StatusContext = 'missions'): StatusM
     case 'waiting':
       return { label: 'Waiting on changes', dot: 'bg-gray-400', chip: 'neutral' }
     case 'pending_recheck':
-      return { label: 'Pending recheck', dot: 'bg-blue-500', chip: 'info' }
+      return { label: 'Pending recheck', dot: 'bg-violet-500', chip: 'info' }
     case 'verified':
       return { label: 'Verified', dot: 'bg-accent', chip: 'accent' }
   }

@@ -1,10 +1,10 @@
-import { Brain, ChartNoAxesColumn, ChevronRight, Info, Wrench } from 'lucide-react'
+import { Brain, ChevronRight, Info, Wrench } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { PlatformIcon } from '../../components/ui/PlatformIcon'
-import { AccentLink, BarCluster, Btn, EmptyState, MoreLink, SectionLabel, cx } from '../../components/ui/primitives'
+import { AccentLink, BarCluster, MoreLink, SectionLabel, cx } from '../../components/ui/primitives'
 import { TrendChart } from '../../components/ui/TrendChart'
-import { BRAND, CITATION_WEEK, COMPETITORS, EXPERT_KPIS, SOURCES, TODAY } from '../../data/seed'
+import { AI_TRAFFIC, BRAND, CITATION_WEEK, COMPETITORS, EXPERT_KPIS, SOURCES, TODAY } from '../../data/seed'
 import { fmtDay, fmtShort } from '../../lib/format'
 import { coverage, visibilitySeries } from '../../state/reducer'
 import { useStore } from '../../state/store'
@@ -34,6 +34,12 @@ export default function ExpertView() {
   const rank = ranking.findIndex((r) => r.isYou) + 1
   const topPrompts = [...state.prompts].sort((a, b) => b.score - a.score).slice(0, 5)
   const maxCite = Math.max(...CITATION_WEEK)
+  const traffic = AI_TRAFFIC.weekly
+  const last4 = traffic.slice(-4).reduce((a, p) => a + p.value, 0)
+  const prev4 = traffic.slice(-8, -4).reduce((a, p) => a + p.value, 0)
+  const growth = Math.round(((last4 - prev4) / prev4) * 100)
+  const platformTotal = AI_TRAFFIC.byPlatform.reduce((a, p) => a + p.sessions, 0)
+  const platformName = (id: string) => state.platforms.find((p) => p.id === id)!.name
 
   return (
     <div className="-mx-10 -mt-9">
@@ -52,7 +58,7 @@ export default function ExpertView() {
           to="/executive/expert#rankings"
         />
         <Kpi label="Citations" value={EXPERT_KPIS.citations} sub="this week" to="/executive/evidence?period=7" />
-        <Kpi label="AI traffic" value="– –" sub="Connect GA" to="/integrations" muted />
+        <Kpi label="AI traffic" value={last4.toLocaleString()} sub="sessions, last 4 weeks" to="/executive/expert#ai-traffic" />
         <Kpi label="Conversations" value="– –" sub="Connect AI crawlers" to="/connect" muted />
       </div>
       <div className="flex items-center gap-4 border-b border-default px-6 py-2.5 text-xs text-gray-500">
@@ -75,7 +81,7 @@ export default function ExpertView() {
                     onClick={() => setRange(r)}
                     className={cx(
                       'h-8 rounded-md px-2.5 font-mono text-[13px]',
-                      range === r ? 'bg-accent-subtle font-medium text-accent ring-1 ring-green-100' : 'text-gray-500 hover:bg-gray-50',
+                      range === r ? 'bg-accent-subtle font-medium text-accent ring-1 ring-accent-muted' : 'text-gray-500 hover:bg-gray-50',
                     )}
                   >
                     {r}
@@ -246,18 +252,36 @@ export default function ExpertView() {
             ))}
           </ul>
         </section>
-        <section className="px-10 py-8">
-          <SectionLabel>AI traffic</SectionLabel>
-          <EmptyState
-            icon={ChartNoAxesColumn}
-            title="Connect analytics"
-            body="See visitors from AI citations"
-            action={
-              <Btn size="sm" variant="soft" to="/integrations">
-                Connect ›
-              </Btn>
-            }
-          />
+        <section id="ai-traffic" className="px-10 py-8">
+          <SectionLabel right={<span className="text-xs text-gray-400">GA4 · illustrative</span>}>AI traffic</SectionLabel>
+          <div className="mt-5 flex items-end gap-3">
+            <span className="font-mono text-[34px] font-medium leading-none">{last4.toLocaleString()}</span>
+            <span className="pb-0.5 font-mono text-xs text-accent">+{growth}%</span>
+          </div>
+          <div className="mt-1 text-xs text-gray-500">
+            sessions from AI answers, last 4 weeks · <span className="font-mono">{AI_TRAFFIC.conversions}</span> enquiries
+          </div>
+          <div className="mt-4">
+            <TrendChart data={traffic} height={130} ariaLabel="Weekly sessions referred by AI assistants" />
+          </div>
+          <SectionLabel className="mt-5" right={<span className="text-xs text-gray-400">90 days</span>}>
+            By platform
+          </SectionLabel>
+          <ul className="mt-2">
+            {AI_TRAFFIC.byPlatform.map((p) => (
+              <li key={p.id}>
+                <Link to={`/executive/platforms/${p.id}`} className="-mx-2 grid grid-cols-[130px_1fr_44px] items-center gap-3 rounded-md px-2 py-1.5 hover:bg-gray-50">
+                  <span className="flex items-center gap-2 text-sm text-gray-800">
+                    <PlatformIcon id={p.id} size={13} /> {platformName(p.id)}
+                  </span>
+                  <span className="h-1.5 overflow-hidden rounded-full bg-gray-100">
+                    <span className="block h-full rounded-full bg-accent" style={{ width: `${(p.sessions / platformTotal) * 100}%` }} />
+                  </span>
+                  <span className="text-right font-mono text-[13px] text-gray-500">{p.sessions}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
         <section className="px-10 py-8">
           <SectionLabel right={<MoreLink to="/executive/missions/team">Team view</MoreLink>}>What changed</SectionLabel>

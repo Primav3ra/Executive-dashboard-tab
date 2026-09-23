@@ -128,10 +128,10 @@ export function Toaster() {
     <div className="no-print fixed bottom-20 right-6 z-50 flex flex-col items-end gap-2" aria-live="polite">
       {toasts.map((t) => (
         <div key={t.id} className="animate-toast flex items-center gap-3 rounded-lg bg-gray-900 py-2.5 pl-4 pr-2.5 text-sm text-white shadow-overlay">
-          <span className="size-1.5 rounded-full bg-green-100" />
+          <span className="size-1.5 rounded-full bg-accent-muted" />
           <span>{t.text}</span>
           {t.href && (
-            <Link to={t.href} onClick={() => dismiss(t.id)} className="font-medium text-green-100 hover:underline">
+            <Link to={t.href} onClick={() => dismiss(t.id)} className="font-medium text-accent-muted hover:underline">
               {t.hrefLabel ?? 'View'}
             </Link>
           )}
